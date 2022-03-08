@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\CheckUserOnCourse;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,8 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \App\Events\ExampleEvent::class => [
-            \App\Listeners\ExampleListener::class,
+        \App\Events\ChangeLessonStatusEvent::class => [
+            \App\Listeners\CalculateCourseProgress::class,
         ],
+        \App\Events\AddUserOnCourseEvent::class =>[
+            \App\Listeners\CheckUserOnCourse::class,
+            \App\Listeners\CheckCountsStudents::class,
+        ]
     ];
 }

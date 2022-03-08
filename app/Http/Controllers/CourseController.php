@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Lesson;
+use Illuminate\Validation\Validator;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -19,7 +22,17 @@ class CourseController extends Controller
         return response()->json($result);
     }
 
-    public function CreateCourse(){
+    public function CreateCourse(Request $request){
+        //validation
+        $this->validate(request(),[
+            "title"=>"required",
+            "student_capacity"=>"required",
+            "start_date"=>"required|date_format:Y-m-d",
+            "end_date"=>"required|date_format:Y-m-d",
+            "has_certificate"=>"required"
+        ]);
+
+
         $newCourse = request()->json()->all();
         $result = $this->course->CreateCourse($newCourse);
         if ($result){
@@ -28,6 +41,13 @@ class CourseController extends Controller
             return response()->json(['status'=>'error','error'=>'Error creating user'],500);
         }
 
+    }
+
+    public function GetLessons(){
+
+        $courseId = request()->input('course_id');
+        $lessons = $this->course->GetLessons($courseId);
+        return response()->json($lessons);
     }
 
 

@@ -11,7 +11,12 @@ class Course extends Model
     public $timestamps = false;
 
     public function GetAllCourses(){
-        return $this->all();
+        $data = $this->all();
+        foreach($data as $course){
+            $lessons = Course::find($course->id)->lessons;
+            $course['lessons'] = $lessons;
+        }
+        return $data;
     }
 
     public function CreateCourse($course): bool
@@ -24,6 +29,13 @@ class Course extends Model
         }
     }
 
+    public function GetLessons($courseId){
+        return Course::find($courseId)->lessons;
+    }
+
+    public function lessons(){
+        return $this->hasMany(Lesson::class);
+    }
 
 }
 

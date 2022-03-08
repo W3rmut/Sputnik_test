@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddUserOnCourseEvent;
 use App\Models\User;
+use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use http\Env\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -33,7 +38,7 @@ class UserController extends Controller
         }
     }
 
-    public function UpdateUser($userId): \Illuminate\Http\JsonResponse
+    public function UpdateUser($userId,Request $request): \Illuminate\Http\JsonResponse
     {
         $newUser = request()->json()->all();
         $result = $this->user->UpdateUser($userId,$newUser);
@@ -53,5 +58,44 @@ class UserController extends Controller
         }else{
             return response()->json(['status'=>'error','error'=>'Error deleting user'],500);
         }
+    }
+
+    public function LoginUser(){
+        //validation
+        $this->validate(request(),[
+            'email'=>'required',
+            'password'=>'required'
+        ]);
+
+        $userData = request()->json()->all();
+        $result = $this->user->LoginUser($userData);
+        if (!$result){
+            return response()->json(['status'=>'error','error'=>'Invalid credential'],403);
+        }else{
+            return response()->json(['status'=>'success','message'=>'auth successful','token'=>$result],200);
+        }
+    }
+
+    public function EnrollUserOnCourse(){
+        //validation
+        $this->validate(request(),[
+            "course_id"=>'required'
+        ]);
+        try {
+            $token = request()->bearerToken();
+            $decoded = JWT::decode($token,new Key(env('JWT_SECRET'),'HS256'));
+            $courseId = request()->json()->get('course_id');
+            event(new AddUserOnCourseEvent($decoded->id,$courseId));
+            $result = $this->user->EnrollUserOnCourse($decoded->id,$courseId);
+            if ($result){
+                return response()->json(['status'=>'success','message'=>'Successfully enroll on course'],200);
+            }else{
+                return response()->json(['status'=>'error','error'=>'Error enroll on course'],500);
+            }
+        }catch (Exception $exception){
+            dd($exception);
+            return response()->json(['status'=>'error','error'=>'user already on course'],500);
+        }
+
     }
 }

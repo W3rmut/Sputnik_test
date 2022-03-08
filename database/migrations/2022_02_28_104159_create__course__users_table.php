@@ -16,7 +16,7 @@ class CreateCourseUsersTable extends Migration
         Schema::create('course_users', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->integer('percentage_passing');

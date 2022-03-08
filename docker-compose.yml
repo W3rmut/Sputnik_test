@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  lumen:
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor/
+    build: .
+    command: bash -c "php artisan migrate && php artisan db:seed --class=UserSeeder&& php artisan db:seed --class=CourseSeeder &&  php artisan db:seed --class=LessonsSeeder && php -S lumen:8000 -t public"
+    restart: always
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    ports:
+      - "5436:5432"
