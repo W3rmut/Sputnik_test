@@ -16,7 +16,7 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('courses')->insert([
+        DB::table('courses')->updateOrInsert([
             "title"=>"Test English Course",
             "student_capacity"=>5,
             "start_date"=>"2022-05-01",
@@ -24,7 +24,7 @@ class CourseSeeder extends Seeder
             "has_certificate"=>false,
         ]);
 
-        DB::table('courses')->insert([
+        DB::table('courses')->updateOrInsert([
             "title"=>"Test PHP Course",
             "student_capacity"=>2,
             "start_date"=>"2022-05-02",
@@ -32,7 +32,7 @@ class CourseSeeder extends Seeder
             "has_certificate"=>true,
         ]);
 
-        DB::table('courses')->insert([
+        DB::table('courses')->updateOrInsert([
             "title"=>"Test Photoshop Course",
             "student_capacity"=>1,
             "start_date"=>"2022-05-03",

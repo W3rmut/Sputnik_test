@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('users')->updateOrInsert([
             "first_name"=>"admin",
             "last_name"=>"test",
             "phone"=>"88005553535",
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'is_admin'=>true,
         ]);
-        DB::table('users')->insert([
+        DB::table('users')->updateOrInsert([
             "first_name"=>"John",
             "last_name"=>"Doe",
             "phone"=>"88005553532",
@@ -32,8 +32,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('user1'),
             'is_admin'=>false,
         ]);
-        DB::table('users')->insert([
-            "first_name"=>"",
+        DB::table('users')->updateOrInsert([
+            "first_name"=>"John",
             "last_name"=>"Doe",
             "phone"=>"88005553531",
             'email' => "user2@gmail.com",

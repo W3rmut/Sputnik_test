@@ -17,42 +17,42 @@ class LessonsSeeder extends Seeder
     public function run()
     {
         //lessons for course English
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>1,
             "theme"=>"Past Simple",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>1,
             "theme"=>"Present Simple",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>1,
             "theme"=>"Future Simple",
         ]);
         //lessons for course PHP
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>2,
             "theme"=>"Why you shouldn't use php",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>2,
             "theme"=>"Why you shouldn't use laravel",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>2,
             "theme"=>"Why you still here ?",
         ]);
 
         //lessons for course PHP
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>3,
             "theme"=>"Layouts",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>3,
             "theme"=>"Filters",
         ]);
-        DB::table('lessons')->insert([
+        DB::table('lessons')->updateOrInsert([
             "course_id"=>3,
             "theme"=>"Colors",
         ]);

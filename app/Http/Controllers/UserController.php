@@ -29,6 +29,13 @@ class UserController extends Controller
 
     public function CreateUser(): \Illuminate\Http\JsonResponse
     {
+        $this->validate(request(),[
+            'email'=>'required|email|unique:users,email,'.$this->user,
+            'password'=>'required',
+            'phone'=>"required",
+            'first_name'=>"required",
+            'last_name'=>"required",
+        ]);
         $newUser = request()->json()->all();
         $result = $this->user->CreateUser($newUser);
         if ($result){
@@ -38,7 +45,7 @@ class UserController extends Controller
         }
     }
 
-    public function UpdateUser($userId,Request $request): \Illuminate\Http\JsonResponse
+    public function UpdateUser($userId): \Illuminate\Http\JsonResponse
     {
         $newUser = request()->json()->all();
         $result = $this->user->UpdateUser($userId,$newUser);
@@ -50,7 +57,7 @@ class UserController extends Controller
 
     }
 
-    public function DeleteUsers($userId): \Illuminate\Http\JsonResponse
+    public function DeleteUser($userId): \Illuminate\Http\JsonResponse
     {
         $result = $this->user->DeleteUser($userId);
         if ($result){
@@ -93,7 +100,6 @@ class UserController extends Controller
                 return response()->json(['status'=>'error','error'=>'Error enroll on course'],500);
             }
         }catch (Exception $exception){
-            dd($exception);
             return response()->json(['status'=>'error','error'=>'user already on course'],500);
         }
 
