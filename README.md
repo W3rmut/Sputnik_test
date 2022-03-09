@@ -1,13 +1,11 @@
 # Тестовое задание
 
-## Используемые технологии
-
-- php 7.4
-- lumen 8
-- postgres
-
 ## Описание задания:
-    
-## Запуск
 
-`docker-compose --env-file .env up --build`
+Описание задания [здесь](BackendTest.pdf)
+
+Пример запросов к API в Postman [здесь](./collections/Lumen%20Courses%20Api.postman_collection.json)
+## Запуск
+Запуск можно произвести при помощи docker-compose файла в корне проекта:
+
+    docker-compose --env-file .env up --build
